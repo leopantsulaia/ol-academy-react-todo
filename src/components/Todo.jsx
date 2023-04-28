@@ -1,5 +1,10 @@
+// import at first
 import React from "react";
+import "./todo.scss";
+import TodoItem from "./TodoItem.jsx";
 
+
+// class ... extends React.Component{constructor(props}{super(props)}
 class Todo extends React.Component {
   constructor(props) {
     super(props);
@@ -18,16 +23,23 @@ class Todo extends React.Component {
 
   handleAddTodo = () => {
     const usedIds = this.state.todos.map((todo) => todo.id);
-    const newId = Math.max(...usedIds) + 1;
+    let newId = 0;
+    if(usedIds.length > 0) {
+      newId= Math.max(...usedIds) + 1;
+    }
+
     console.log({ usedIds });
     this.setState({
-      todos: [...this.state.todos, { text: this.state.inputValue, id: "" }],
+      todos: [...this.state.todos, { text: this.state.inputValue, id: newId }],
       inputValue: "",
     });
   };
-
-  handleDelete = () => {
-    console.log("delete");
+ 
+  handleDelete = (id) => {
+    const filterTodos = this.state.todos.filter(
+      todo => todo.id !== id
+    )
+    this.setState({todos: filterTodos});
   };
 
   render() {
@@ -39,12 +51,11 @@ class Todo extends React.Component {
           <div>
             <ul>
               {this.state.todos?.map((todo) => (
-                <li key={todo.id}>
-                  <div>
-                    {todo.text}
-                    <button onClick={this.handleDelete}>Delete</button>
-                  </div>
-                </li>
+                <TodoItem 
+                key={todo.id}
+                todo={todo}
+                handleDelete={this.handleDelete}
+                />
               ))}
             </ul>
           </div>
@@ -59,6 +70,7 @@ class Todo extends React.Component {
             value={this.state.inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
           />
+
           <button onClick={this.handleAddTodo}>Add Todo</button>
         </div>
       </div>
