@@ -1,16 +1,85 @@
 $primary_1: #a2b9bc;
 $primary_2: #b2ad7f;
 $primary_3: #878f99;
+$primary_4: rgb(253, 7, 7);
 
-/* use the variables */
-button {
-  background-color: $primary_2;
-}
-
-.menu-left {
-  background-color: $primary_2;
-}
-
-.menu-right {
+body{
   background-color: $primary_3;
+}
+.main-div {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+li.done {
+  background-color: #e0e0e0;
+}
+
+li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+li span {
+  flex: 1;
+  margin-right: 10px;
+}
+
+li button {
+  margin-left: 10px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 3px #ccc;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+p {
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  font-style: italic;
+}
+
+.done {
+  color: $primary_4;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./todo.scss";
-import TodoItem from "./TodoItem.jsx";
+import TodoItem from "../TodoItem.jsx";
 
 class Todo extends React.Component {
   constructor(props) {
@@ -84,33 +84,9 @@ class Todo extends React.Component {
     });
   };
 
-  // up and down
-
-  handleUp = (id) => {
-    const currentIndex = this.state.todos.findIndex((todo) => todo.id === id);
-    if (currentIndex > 0) {
-      const newTodos = [...this.state.todos];
-      const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex - 1];
-      newTodos[currentIndex - 1] = temp;
-      this.setState({ todos: newTodos });
-    }
-  };
-
-  handleDown = (id) => {
-    const currentIndex = this.state.todos.findIndex((todo) => todo.id === id);
-    if (currentIndex < this.state.todos.length - 1) {
-      const newTodos = [...this.state.todos];
-      const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex + 1];
-      newTodos[currentIndex + 1] = temp;
-      this.setState({ todos: newTodos });
-    }
-  };
-
   render() {
     return (
-      <div className="main-div">
+      <div>
         <h1>{this.props.title}</h1>
         {this.state.todos.length > 0 ? (
           <ul>
@@ -134,8 +110,6 @@ class Todo extends React.Component {
                     handleDone={this.handleDone}
                     handleEdit={this.handleEdit}
                     handleCheck={this.handleCheck}
-                    handleUp={() => this.handleUp(todo.id)}
-                    handleDown={() => this.handleDown(todo.id)}
                   />
                 )}
               </div>

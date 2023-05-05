@@ -1,7 +1,37 @@
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+// IT DOES NOTHING
+// Test editing aris gatanili calke failshi, datestilia da mushaobs
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+//////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+// import at first
 import React from "react";
 import "./todo.scss";
-import TodoItem from "./TodoItem.jsx";
+import TodoItem from "../TodoItem.jsx";
+import TestEditing from "./TestEditing.jsx"
 
+// class ... extends React.Component{constructor(props}{super(props)}
 class Todo extends React.Component {
   constructor(props) {
     super(props);
@@ -12,9 +42,14 @@ class Todo extends React.Component {
       editingTodoId: null,
       editingTodoText: "",
       isDone: false,
-      isChecked: false,
     };
   }
+
+  // handleAddTodoVerse1 = () => {
+  // const todos = [...this.state.todos];
+  //   todos.push(this.state.inputValue);
+  // this.setState({todos: todos});
+  // }
 
   handleAddTodo = () => {
     const usedIds = this.state.todos.map((todo) => todo.id);
@@ -53,16 +88,6 @@ class Todo extends React.Component {
     });
   };
 
-  handleCheck = (id) => {
-    const checkedTodos = this.state.todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, isChecked: !todo.isChecked };
-      }
-      return todo;
-    });
-    this.setState({ todos: checkedTodos });
-  };
-
   handleUpdate = () => {
     const updatedTodos = this.state.todos.map((todo) => {
       if (todo.id === this.state.editingTodoId) {
@@ -84,48 +109,23 @@ class Todo extends React.Component {
     });
   };
 
-  // up and down
-
-  handleUp = (id) => {
-    const currentIndex = this.state.todos.findIndex((todo) => todo.id === id);
-    if (currentIndex > 0) {
-      const newTodos = [...this.state.todos];
-      const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex - 1];
-      newTodos[currentIndex - 1] = temp;
-      this.setState({ todos: newTodos });
-    }
-  };
-
-  handleDown = (id) => {
-    const currentIndex = this.state.todos.findIndex((todo) => todo.id === id);
-    if (currentIndex < this.state.todos.length - 1) {
-      const newTodos = [...this.state.todos];
-      const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex + 1];
-      newTodos[currentIndex + 1] = temp;
-      this.setState({ todos: newTodos });
-    }
-  };
-
   render() {
     return (
-      <div className="main-div">
+      <div>
         <h1>{this.props.title}</h1>
         {this.state.todos.length > 0 ? (
           <ul>
             {this.state.todos.map((todo) => (
               <div className={todo.isDone ? "done" : ""}>
                 {this.state.editingTodoId === todo.id ? (
-                  <div>
-                    <input
-                      type='text'
-                      value={this.state.editingTodoText}
-                      onChange={(e) => this.setState({ editingTodoText: e.target.value })}
+                  <TestEditing
+                      editingTodoText={this.state.editingTodoText}
+                      onEditChange={(value) =>
+                        this.setState({ editingTodoText: value })
+                      }
+                      handleUpdate={this.handleUpdate}
+                      handleCancel={this.handleCancel}
                     />
-                    <button onClick={this.handleUpdate}>Save</button>
-                    <button onClick={this.handleCancel}>Cancel</button>
-                  </div>
                 ) : (
                   <TodoItem
                     key={todo.id}
@@ -133,9 +133,6 @@ class Todo extends React.Component {
                     handleDelete={this.handleDelete}
                     handleDone={this.handleDone}
                     handleEdit={this.handleEdit}
-                    handleCheck={this.handleCheck}
-                    handleUp={() => this.handleUp(todo.id)}
-                    handleDown={() => this.handleDown(todo.id)}
                   />
                 )}
               </div>
