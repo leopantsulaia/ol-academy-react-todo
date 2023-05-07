@@ -13,6 +13,7 @@ class Todo extends React.Component {
       editingTodoText: "",
       isDone: false,
       isChecked: false,
+      // alreadyExists: false, // ეს ვერ ავამუშავე და წავშალე //
     };
   }
 
