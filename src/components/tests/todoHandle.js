@@ -1,3 +1,16 @@
+//versia 1
+// const handlers =  {
+//   handleAddTodo: (ragaca) => {ragaca
+//   },
+//   handleDelete: (ragaca) => {ragaca},
+// }
+//export default handlers;
+
+//versia 2
+// export const handlers = {.............}
+
+//versia 3 es yvela
+
 const handleAddTodo = (state, setState) => {
   const usedIds = state.todos.map((todo) => todo.id);
   let newId = 0;
@@ -87,14 +100,4 @@ const handleDown = (id, state, setState) => {
   }
 };
 
-export {
-  handleAddTodo,
-  handleDelete,
-  handleDone,
-  handleEdit,
-  handleCheck,
-  handleUpdate,
-  handleCancel,
-  handleUp,
-  handleDown,
-};
+export { handleAddTodo, handleDelete, handleDone, handleEdit, handleCheck, handleUpdate, handleCancel, handleUp, handleDown };

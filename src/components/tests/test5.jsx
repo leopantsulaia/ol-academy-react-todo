@@ -22,12 +22,17 @@ class Todo extends React.Component {
     if (usedIds.length > 0) {
       newId = Math.max(...usedIds) + 1;
     }
-
+    const existingTodo = this.state.todos.find((todo) => todo.text === todo.text.inputValue);
+    if (existingTodo) {
+      this.setState({ alreadyExists: true, existingTodo: existingTodo });
+    } else {
+      this.setState({
+        todos: [...this.state.todos, { text: this.state.inputValue, id: newId }],
+        inputValue: "",
+        alreadyExists: false,
+      });
+    }
     // console.log({ usedIds });
-    this.setState({
-      todos: [...this.state.todos, { text: this.state.inputValue, id: newId }],
-      inputValue: "",
-    });
   };
 
   handleDelete = (id) => {
@@ -110,7 +115,7 @@ class Todo extends React.Component {
 
   handleDeleteAll = () => {
     this.setState({ todos: [] });
-    }
+  };
 
   render() {
     return (
@@ -119,8 +124,10 @@ class Todo extends React.Component {
         {this.state.todos.length > 0 ? (
           <ul>
             {this.state.todos.map((todo) => (
-              <div className={todo.isDone ? "done" : ""}
-                key={todo.id}>
+              <div
+                className={todo.isDone ? "done" : ""}
+                key={todo.id}
+              >
                 {this.state.editingTodoId === todo.id ? (
                   <div>
                     <input
@@ -161,7 +168,12 @@ class Todo extends React.Component {
             <button onClick={this.handleAddTodo}>Add Todo</button>
           </div>
         </div>
-        <button className="Delete-all" onClick={this.handleDeleteAll}>delete all todos</button>
+        <button
+          className='Delete-all'
+          onClick={this.handleDeleteAll}
+        >
+          delete all todos
+        </button>
       </div>
     );
   }
