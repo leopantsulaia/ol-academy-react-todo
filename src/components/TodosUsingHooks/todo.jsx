@@ -7,11 +7,16 @@ function Todo(props) {
   const [inputValue, setInputValue] = useState("");
   const [editingTodoId, setEditingTodoId] = useState(null);
   const [editingTodoText, setEditingTodoText] = useState("");
-  const [isDone, setIsDone] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleAddTodo = () => {
+    const messageExists = todos.some((todo) => todo.text === inputValue);
     const usedIds = todos.map((todo) => todo.id);
+
+    if (inputValue.match(/^\s*$/) || messageExists) {
+      alert("empty message or message already added");
+      return false;
+    }
+
     let newId = 0;
     if (usedIds.length > 0) {
       newId = Math.max(...usedIds) + 1;
@@ -19,12 +24,15 @@ function Todo(props) {
     setTodos([...todos, { text: inputValue, id: newId }]);
     setInputValue("");
   };
-
+  const handleKeyEnter = (event) => {
+    if (event.key === "Enter") {
+      handleAddTodo();
+    }
+  };
   const handleDelete = (id) => {
     const filterTodos = todos.filter((todo) => todo.id !== id);
     setTodos(filterTodos);
   };
-
   const handleDone = (id) => {
     const filterDone = todos.map((todo) => {
       if (todo.id === id) {
@@ -40,7 +48,6 @@ function Todo(props) {
     setEditingTodoId(id);
     setEditingTodoText(todo.text);
   };
-
   const handleCheck = (id) => {
     const checkedTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -50,7 +57,6 @@ function Todo(props) {
     });
     setTodos(checkedTodos);
   };
-
   const handleUpdate = () => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === editingTodoId) {
@@ -62,38 +68,34 @@ function Todo(props) {
     setEditingTodoId(null);
     setEditingTodoText(setEditingTodoText);
   };
-
   const handleCancel = () => {
     setEditingTodoId(null);
     setEditingTodoText("");
   };
-
-  // up and down
-
-  const handleUp = (id) => {
+  const handleMove = (id, direction) => {
     const currentIndex = todos.findIndex((todo) => todo.id === id);
-    if (currentIndex > 0) {
+    if ((direction === "up" && currentIndex > 0) || (direction === "down" && currentIndex < todos.length - 1)) {
+      const offset = direction === "up" ? -1 : 1;
       const newTodos = [...todos];
       const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex - 1];
-      newTodos[currentIndex - 1] = temp;
-      setTodos(newTodos);
+      newTodos[currentIndex] = newTodos[currentIndex + offset];
+      newTodos[currentIndex + offset] = temp;
+      setTodos(
+        newTodos.map((todo, index) => ({
+          ...todo,
+          isDone: todos[index].isDone,
+          isChecked: todos[index].isChecked,
+        }))
+      );
     }
   };
-
-  const handleDown = (id) => {
-    const currentIndex = todos.findIndex((todo) => todo.id === id);
-    if (currentIndex < todos.length - 1) {
-      const newTodos = [...todos];
-      const temp = newTodos[currentIndex];
-      newTodos[currentIndex] = newTodos[currentIndex + 1];
-      newTodos[currentIndex + 1] = temp;
-      setTodos(newTodos);
-    }
-  };
-
   const handleDeleteAll = () => {
-    setTodos([]);
+    const filterChecked = todos.filter((todo) => !todo.isChecked);
+    setTodos(filterChecked);
+  };
+  const handleDeleteDone = () => {
+    const filterDone = todos.filter((todo) => !todo.isDone);
+    setTodos(filterDone);
   };
 
   return (
@@ -124,8 +126,7 @@ function Todo(props) {
                   handleDone={handleDone}
                   handleEdit={handleEdit}
                   handleCheck={handleCheck}
-                  handleUp={() => handleUp(todo.id)}
-                  handleDown={() => handleDown(todo.id)}
+                  handleMove={(id, direction) => handleMove(todo.id, direction)}
                 />
               )}
             </div>
@@ -140,18 +141,27 @@ function Todo(props) {
         <input
           type='text'
           value={inputValue}
+          onKeyDown={handleKeyEnter}
           onChange={(e) => setInputValue(e.target.value)}
         />
         <div>
           <button onClick={handleAddTodo}>Add Todo</button>
         </div>
       </div>
-      <button
-        className='Delete-all'
-        onClick={handleDeleteAll}
-      >
-        delete all todos
-      </button>
+      <div>
+        <button
+          className='Delete-all'
+          onClick={handleDeleteAll}
+        >
+          delete all checked todos
+        </button>
+        <button
+          className='Delete-all'
+          onClick={handleDeleteDone}
+        >
+          delete all done tasks
+        </button>
+      </div>
     </div>
   );
 }

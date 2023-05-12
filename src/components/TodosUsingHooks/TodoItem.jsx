@@ -1,23 +1,38 @@
 import React from "react";
 
-class TodoItem extends React.Component {
-  render() {
-    return (
-      <li key={this.props.todo.id}>
-        <div>
-          {this.props.todo.text}
-          <button onClick={() => this.props.handleDelete(this.props.todo.id)}>Delete</button>
-          <button onClick={() => this.props.handleDone(this.props.todo.id)}>Done</button>
-          <button onClick={() => this.props.handleEdit(this.props.todo.id)}>Edit</button>
-          <button onClick={() => this.props.handleUp(this.props.todo.id)}>Up</button>
-          <button onClick={() => this.props.handleDown(this.props.todo.id)}>Down</button>
-          <input
-            type='checkbox'
-            onClick={() => this.props.handleCheck(this.props.todo.id)}
-          />
-        </div>
-      </li>
-    );
-  }
+function TodoItem(props) {
+  const handleDelete = () => {
+    props.handleDelete(props.todo.id);
+  };
+  const handleDone = () => {
+    props.handleDone(props.todo.id);
+  };
+  const handleEdit = () => {
+    props.handleEdit(props.todo.id);
+  };
+  const handleMove = (direction) => {
+    props.handleMove(props.todo.id, direction);
+  };
+  const handleCheck = () => {
+    props.handleCheck(props.todo.id);
+  };
+  return (
+    <li key={props.todo.id}>
+      <div>
+        {props.todo.text}
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleDone}>Done</button>
+        <button onClick={handleEdit}>Edit</button>
+        <button onClick={() => handleMove("up")}>Move Up</button>
+        <button onClick={() => handleMove("down")}>Move Down</button>
+        <input
+          type='checkbox'
+          onClick={handleCheck}
+        />
+      </div>
+    </li>
+  );
 }
+
 export default TodoItem;
+
