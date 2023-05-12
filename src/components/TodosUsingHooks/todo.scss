@@ -84,9 +84,19 @@ p {
   color: $primary_4;
 }
 
+.Deletes{
+  position: absolute;
+  margin: 8px auto;
+}
+
+
 .Delete-all{
   float: inline-end;
   margin: 20px 20px;
   background-color: red;
   color: black;
+} 
+.Delete-all:hover {
+  background-color: darkred;
+  color: white
 }

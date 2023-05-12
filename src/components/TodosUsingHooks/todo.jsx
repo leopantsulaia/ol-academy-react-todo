@@ -29,10 +29,10 @@ function Todo(props) {
       handleAddTodo();
     }
   };
-  const handleDelete = (id) => {
-    const filterTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(filterTodos);
+ const handleDelete = (idToDelete) => {
+    setTodos(todos.filter(({id}) => id !== idToDelete));
   };
+  
   const handleDone = (id) => {
     const filterDone = todos.map((todo) => {
       if (todo.id === id) {
@@ -133,9 +133,9 @@ function Todo(props) {
           ))}
         </ul>
       ) : (
-        <div>
-          <p>No Todos</p>
-        </div>
+        // <div>
+        <p>No Todos</p>
+        // </div>
       )}
       <div>
         <input
@@ -148,7 +148,7 @@ function Todo(props) {
           <button onClick={handleAddTodo}>Add Todo</button>
         </div>
       </div>
-      <div>
+      <div className='Deletes'>
         <button
           className='Delete-all'
           onClick={handleDeleteAll}
