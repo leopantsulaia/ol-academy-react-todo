@@ -29,10 +29,10 @@ function Todo(props) {
       handleAddTodo();
     }
   };
- const handleDelete = (idToDelete) => {
-    setTodos(todos.filter(({id}) => id !== idToDelete));
+  const handleDelete = (idToDelete) => {
+    setTodos(todos.filter(({ id }) => id !== idToDelete));
   };
-  
+
   const handleDone = (id) => {
     const filterDone = todos.map((todo) => {
       if (todo.id === id) {
